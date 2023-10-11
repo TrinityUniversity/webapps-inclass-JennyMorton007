@@ -3,7 +3,17 @@
 # ~~~~
 
 # Home page
+# GET or POST says what kind of route it is
+#           /fbusjkdf says what the url is (i.e. localhost:9000/taskList)
+#                                       vv this says what to display it the url
 GET        /                             controllers.Application.index
+GET        /productArgs                  controllers.Application.product(prodType,prodNum:Int)
+# try localhost:9000/productArgs?prodType=abc&prodNum=123        (play around with it)
+GET        /product/:prodType/:prodNum   controllers.Application.product(prodType,prodNum:Int)
+# try localhost:9000/product/hello/800           (play around with it)
+GET        /productRE/$prodType<[a-z]{2}\d\d>/:prodNum      controllers.Application.product(prodType,prodNum:Int)
+# RE=regular expressions        restricts the prodType to 2 lowercase letters [a-z] and 2 digits
+GET        /taskList                     controllers.TaskList1.taskList2
 
 # Prefix must match `play.assets.urlPrefix`
 GET        /assets/*file                 controllers.Assets.at(file)
