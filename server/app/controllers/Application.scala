@@ -8,7 +8,7 @@ import play.api.mvc._
 @Singleton
 class Application @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
   //to run the site; "sbt";"run" in the terminal
-  def index = Action {
+  def index = Action {  implicit request =>
     Ok(views.html.index(SharedMessages.itWorks))
   }
 

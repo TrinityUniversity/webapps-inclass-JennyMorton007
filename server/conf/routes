@@ -15,13 +15,14 @@ GET        /productArgs                  controllers.Application.product(prodTyp
 GET        /product/:prodType/:prodNum   controllers.Application.product(prodType,prodNum:Int)
 # try localhost:9000/product/hello/800           (play around with it)
 GET        /productRE/$prodType<[a-z]{2}\d\d>/:prodNum      controllers.Application.product(prodType,prodNum:Int)
+# RE=regular expressions        restricts the prodType to 2 lowercase letters [a-z] and 2 digits
 
 GET        /login1                       controllers.TaskList1.logIn
 GET        /validateGet1                 controllers.TaskList1.validateLoginGet(userName,passWord)
-+ nocsrf
 POST       /validatePost1                controllers.TaskList1.validateLoginPost
-# RE=regular expressions        restricts the prodType to 2 lowercase letters [a-z] and 2 digits
+POST       /createUser1                  controllers.TaskList1.createUser
 GET        /taskList                     controllers.TaskList1.taskList1
+GET        /logout1                      controllers.TaskList1.logout
 
 # Prefix must match `play.assets.urlPrefix`
 GET        /assets/*file                 controllers.Assets.at(file)
