@@ -18,10 +18,13 @@ class TaskList1 @Inject()(cc: ControllerComponents) extends AbstractController(c
   def validateLoginPost = Action { request =>
     val postVals = request.body.asFormUrlEncoded    //the "argument" names in login1.scala.html are the keys in this map
     postVals.map {args =>                           //the values are the inputs to the form
-      Ok(args("userName").head+" logged in with "+args("passWord").head+".")
-    }.getOrElse(Ok("Oops"))
-    
-  }
+      val username = args("userName").head
+      val password = args("passWord").head
+      if(TaskListInMemoryModel.validateUser(username,password)){
+        Redirect(routes.TaskList1.taskList1)
+      } else Redirect(routes.TaskList1.logIn)
+    }.getOrElse(Redirect(routes.TaskList1.logIn)) //could use "login1", but what if someone changes the route?
+  }//use reverse routing to avoid this problem; if the name has been changed, there will be a compiler error
 
 
   def taskList1 = Action {
