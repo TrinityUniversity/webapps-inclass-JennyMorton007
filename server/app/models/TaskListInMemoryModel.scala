@@ -12,8 +12,8 @@ object TaskListInMemoryModel{   //if the server goes down in any way, all of the
     def createUser(username:String,password:String):Boolean = { 
         if(users.contains(username)) false else {//currently does not work (idk why)
             users(username) = password
+            true
         } 
-        true
     }   //returns false if username already exists
 
     def getTasks(username:String):Seq[String] = {

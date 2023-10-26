@@ -4,25 +4,32 @@ import javax.inject._
 import models.TaskListInMemoryModel
 import shared.SharedMessages
 import play.api.mvc._
-//import play.api.i18n._
+import play.api.i18n._
 import play.api.data._
-import play.api.data.Form._
+import play.api.data.Forms._
+import views.html.defaultpages.badRequest
 
 case class LoginData(username:String,password:String)
 
 @Singleton 
-class TaskList1 @Inject()(cc: ControllerComponents) extends AbstractController(cc){
+class TaskList1 @Inject()(cc: MessagesControllerComponents) extends MessagesAbstractController(cc){ 
+  //using Messages Controller makes the (Minimum length:...) stuff translate between (human) languages (i.e. french, spanish, english)
   val loginForm = Form(mapping(
     "Username"->text(3,10),
     "Password"->text(8)
   )(LoginData.apply)(LoginData.unapply))
 
   def logIn = Action {implicit request =>
-    Ok(views.html.login1())
+    Ok(views.html.login1(loginForm))
   } //first item occurs on the page first (maybe?)
   
-  def validateLoginForm = Action{ implicit request =>
-    Ok("temp")
+  def validateLoginForm = Action{ implicit request =>   //THIS AUTOFILLS!!! (on Edge at least)
+    loginForm.bindFromRequest().fold(
+      formWithErrors => BadRequest(views.html.login1(formWithErrors)),
+      ld =>if(TaskListInMemoryModel.validateUser(ld.username,ld.password)){
+        Redirect(routes.TaskList1.taskList1).withSession("username"->ld.username)
+      } else Redirect(routes.TaskList1.logIn).flashing("error"->"Invalid username/password")
+    )
   }
 
   def validateLoginGet(username:String, password:String) = Action {

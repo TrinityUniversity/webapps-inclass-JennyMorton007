@@ -1,9 +1,9 @@
-@(loginForm:Form[LoginData])(implicit request:RequestHeader,flash:Flash)
+@(loginForm:Form[LoginData])(implicit request:MessagesRequestHeader,flash:Flash)
 @main("Login"){
     <h2>Login</h2>
 
     <form method="get" action="validateGet1">
-        <h3>Login with Get</h3>
+        <h3>Login with Get(doesn't actually login)</h3>
         Username: <input type="text" name="userName">
         <br>
         Password: <input type="password" name="passWord">
