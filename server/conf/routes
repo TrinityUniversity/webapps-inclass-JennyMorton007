@@ -20,9 +20,12 @@ GET        /productRE/$prodType<[a-z]{2}\d\d>/:prodNum      controllers.Applicat
 GET        /login1                       controllers.TaskList1.logIn
 GET        /validateGet1                 controllers.TaskList1.validateLoginGet(userName,passWord)
 POST       /validatePost1                controllers.TaskList1.validateLoginPost
+POST       /validateForm1                controllers.TaskList1.validateLoginForm
 POST       /createUser1                  controllers.TaskList1.createUser
 GET        /taskList                     controllers.TaskList1.taskList1
 GET        /logout1                      controllers.TaskList1.logout
+POST       /addTask1                     controllers.TaskList1.addTask
+POST       /removeTask1                  controllers.TaskList1.removeTask
 
 # Prefix must match `play.assets.urlPrefix`
 GET        /assets/*file                 controllers.Assets.at(file)

@@ -14,6 +14,7 @@
   </head>
   <body>
     @flash.get("error")
+    @flash.get("success")
     @content
     @scalajs.html.scripts("play-client", routes.Assets.versioned(_).toString, name => getClass.getResource(s"/public/$name") != null)
   </body>
