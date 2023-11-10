@@ -8,6 +8,7 @@ import play.api.mvc._
 @Singleton
 class Application @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
   //to run the site; "sbt";"run" in the terminal
+  //hit enter to stop it; "exit" to escape sbt
   def index = Action {  implicit request =>
     Ok(views.html.index(SharedMessages.itWorks))
   }
