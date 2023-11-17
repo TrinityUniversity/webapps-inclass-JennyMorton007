@@ -2,8 +2,8 @@ package models
 import collection.mutable
 
 object TaskListInMemoryModel{   //if the server goes down in any way, all of the changes/information is lost, so this is not ideal
-    private val users = mutable.Map[String,String]("someone"->"something")
-    private val tasks = mutable.Map[String,List[String]]("Jenny"->List("complete videos","task 4","task 5","stay alive"))
+    private val users = mutable.Map[String,String]("Jenny"->"blue","someone"->"something")
+    private val tasks = mutable.Map[String,List[String]]("Jenny"->List("complete videos","stay alive"))
 
     def validateUser(username:String,password:String):Boolean = {
         users.get(username).map(_ ==password).getOrElse(false)  //check type signatures if confused

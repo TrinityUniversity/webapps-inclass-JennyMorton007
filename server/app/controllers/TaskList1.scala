@@ -23,7 +23,7 @@ class TaskList1 @Inject()(cc: MessagesControllerComponents) extends MessagesAbst
     Ok(views.html.login1(loginForm))
   } //first item occurs on the page first (maybe?)
   
-  def validateLoginForm = Action{ implicit request =>   //THIS AUTOFILLS!!! (on Edge at least)
+  def validateLoginForm = Action{ implicit request =>   //THIS AUTOFILLS!!! (on Edge and Chrome at least)
     loginForm.bindFromRequest().fold(
       formWithErrors => BadRequest(views.html.login1(formWithErrors)),
       ld =>if(TaskListInMemoryModel.validateUser(ld.username,ld.password)){
