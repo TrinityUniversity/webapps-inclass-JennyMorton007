@@ -12,10 +12,11 @@ class IntegrationSpec extends Specification {
 
   "Application" should {
     "work from within a browser" in new WithBrowser {
-
+      println("\tbeginning of work within browser")
       browser.goTo("http://localhost:" + port)
-
+      println("\tgot to the index page (maybe?)")
       browser.pageSource must contain("shouts out")
+      println("\tpage contains what we want")
     }
   }
 }

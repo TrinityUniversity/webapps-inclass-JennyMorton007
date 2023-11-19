@@ -14,9 +14,9 @@
     <form method="post" action="@routes.TaskList1.validateLoginPost">
         @helper.CSRF.formField
         <h3>Login with Post</h3>
-        Username: <input type="text" name="userName">
+        Username: <input type="text" name="userName" id="username-login">
         <br>
-        Password: <input type="password" name="passWord">
+        Password: <input type="password" name="passWord" id="password-login">
         <br>
         <input type="submit">
     </form>
@@ -33,9 +33,9 @@
     <form method="post" action="@routes.TaskList1.createUser">
         @helper.CSRF.formField
         <h3>Create User</h3>
-        Username: <input type="text" name="userName">
+        Username: <input type="text" name="userName" id="username-create">
         <br>
-        Password: <input type="password" name="passWord">
+        Password: <input type="password" name="passWord" id="password-create">
         <br>
         <input type="submit">
     </form>
