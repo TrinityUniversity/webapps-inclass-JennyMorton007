@@ -7,8 +7,9 @@ class TaskListInMemoryModel extends PlaySpec{
         TaskListInMemoryModel.validateUser("Jenny","blue") mustBe(true)
     }
     "get correct default tasks" in {
-      TaskListInMemoryModel.getTasks("Jenny") mustBe (List("complete videos", "stay alive"))
+      TaskListInMemoryModel.getTasks("Jenny") mustBe (List("test","complete videos"))
     }   //tasks complete in order, so this goes at the top
+    //this suite of tests goes after TaskList1Spec
     "reject login with wrong password" in{
         TaskListInMemoryModel.validateUser("someone","somethinh") mustBe(false)
     }
@@ -18,14 +19,11 @@ class TaskListInMemoryModel extends PlaySpec{
     "reject login with wrong username and password" in{
         TaskListInMemoryModel.validateUser("somrone","some") mustBe(false)
     }
-    "retrieve tasks for default user" in{
-        TaskListInMemoryModel.getTasks("Jenny") mustBe(List("complete videos","stay alive"))
-    }
     "create new user with no tasks" in{
         TaskListInMemoryModel.createUser("somrone","some") mustBe(true)
         TaskListInMemoryModel.getTasks("somrone") mustBe(Nil)
     }
-    "creat new user with existing name" in{
+    "create new user with existing name" in{
         TaskListInMemoryModel.createUser("Jenny","what") mustBe(false)
     }
     "add new task for default user" in{

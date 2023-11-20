@@ -74,7 +74,7 @@ class TaskList1 @Inject()(cc: MessagesControllerComponents) extends MessagesAbst
     usernameOpt.map{ username =>
       val postVals = request.body.asFormUrlEncoded    //the "argument" names in login1.scala.html are the keys in this map
       postVals.map {args =>                           //the values are the inputs to the form
-        val task = args("task").head
+        val task = args("newTask").head
         TaskListInMemoryModel.addTask(username,task)
         Redirect(routes.TaskList1.taskList1).flashing("success"->"Task added")
       }.getOrElse(Redirect(routes.TaskList1.taskList1).flashing("error"->"Invalid form"))
