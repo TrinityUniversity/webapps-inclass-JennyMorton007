@@ -1,33 +1,70 @@
-//console.log("test")
-const csrfToken=$("#csrfToken").val();
-const loginRoute=$("#loginRoute").val();
-const validateRoute=$("#validateRoute").val();
-const createRoute=$("#createRoute").val();
-$("#content").load(loginRoute);
-
-function login(){
-    const username = $("#loginName").val();
-    const password = $("#loginPass").val();
-    //console.log(username+" "+password);
-    $.post(validateRoute,{username,password,csrfToken},data=>{
-        $("#content").html(data);
-    });
+//console.log("javascript has loaded");
+function fetchLoad(id, route) {
+    //console.log("fetchLoad is called");
+	fetch(route).then(res => res.text()).then(body => {
+		document.getElementById(id).innerHTML = body;
+	})
 }
 
-function createUser(){
-    const username = $("#createName").val();
-    const password = $("#createPass").val();
-    $.post(createRoute,{username,password,csrfToken},data=>{
-        $("#content").html(data);
-    });
+function fetchPost(route, data, success) {
+    //console.log("fetchPost is called");
+	fetch(route, { 
+		method: 'POST',
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		body: Object.keys(data).map(key => encodeURIComponent(key)+'='+encodeURIComponent(data[key])).join('&')
+	}).then(res => res.text()).then(body => success(body));
 }
 
-function deleteTask(index){
-    $("#content").load("/delete2?index="+index);
+const csrfToken = $("#csrfToken").val();
+//const loginRoute = $("#loginRoute").val();
+const loginRoute = document.getElementById("loginRoute").value;
+const validateRoute = $("#validateRoute").val();
+const createRoute = $("#createRoute").val();
+const deleteRoute = $("#deleteRoute").val();
+const addRoute = $("#addRoute").val();
+
+// $("#contents").load(loginRoute);
+fetchLoad("content", loginRoute);
+
+function login() {
+	const username = $("#loginName").val();
+	const password = $("#loginPass").val();
+	// $.post(validateRoute,
+	// 	{ username, password, csrfToken },
+	// 	data => {
+	// 		$("#contents").html(data);
+	// 	});
+	fetchPost(validateRoute,
+		{ username, password, csrfToken },
+		data => {
+			document.getElementById("content").innerHTML = data;
+			//$("#contents").html(data);
+		});
 }
 
-function addTask(){
-    const task = $("#newTask").val();
-    //console.log(task);
-    $("#content").load("/add2?task="+encodeURIComponent(task));
+function createUser() {
+	const username = $("#createName").val();
+	const password = $("#createPass").val();
+	$.post(createRoute,
+		{ username, password, csrfToken },
+		data => {
+			$("#content").html(data);
+		});
+}
+
+function deleteTask(index) {
+	$.post(deleteRoute,
+		{ index, csrfToken },
+		data => {
+			$("#content").html(data);
+		});
+}
+
+function addTask() {
+	const task = $("#newTask").val();
+	$.post(addRoute,
+		{ task, csrfToken },
+		data => {
+			$("#content").html(data);
+		});
 }

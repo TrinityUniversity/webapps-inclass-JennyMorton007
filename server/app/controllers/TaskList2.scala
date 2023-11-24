@@ -34,7 +34,8 @@ class TaskList2 @Inject()(cc: ControllerComponents) extends AbstractController(c
       val username = args("username").head
       val password = args("password").head
       if(TaskListInMemoryModel.validateUser(username,password)){
-        Ok(views.html.tasklist2(TaskListInMemoryModel.getTasks(username))).withSession("username"->username)
+        Ok(views.html.tasklist2(TaskListInMemoryModel.getTasks(username)))
+        .withSession("username"->username,"csrfToken"->play.filters.csrf.CSRF.getToken.get.value)
       } else Ok(views.html.login2())
     }.getOrElse(Ok(views.html.login2()))
   }
@@ -42,30 +43,39 @@ class TaskList2 @Inject()(cc: ControllerComponents) extends AbstractController(c
   def create = Action{implicit request =>
       //println("creating the user")
       val postVals = request.body.asFormUrlEncoded    //the "argument" names in login1.scala.html are the keys in this map
-    postVals.map {args =>                           //the values are the inputs to the form
-      val username = args("username").head
-      val password = args("password").head
-      if(TaskListInMemoryModel.createUser(username,password)){
-        Ok(views.html.tasklist2(TaskListInMemoryModel.getTasks(username))).withSession("username"->username)
-      } else Ok(views.html.login2())
-    }.getOrElse(Ok(views.html.login2()))
+        postVals.map {args =>                           //the values are the inputs to the form
+            val username = args("username").head
+            val password = args("password").head
+            if(TaskListInMemoryModel.createUser(username,password)){
+                Ok(views.html.tasklist2(TaskListInMemoryModel.getTasks(username)))
+                .withSession("username"->username,"csrfToken"->play.filters.csrf.CSRF.getToken.get.value)
+            } else Ok(views.html.login2())
+        }.getOrElse(Ok(views.html.login2()))
   }
 
-  def delete(index:Int) = Action{implicit request =>
+def delete = Action{implicit request =>
     val usernameOpt = request.session.get("username")
     usernameOpt.map{ username =>
-    if(TaskListInMemoryModel.removeTask(username,index)){
-          Ok(views.html.tasklist2(TaskListInMemoryModel.getTasks(username)))
-        } else Ok(views.html.tasklist2(TaskListInMemoryModel.getTasks(username)))
+        val postVals = request.body.asFormUrlEncoded
+        postVals.map { args =>
+            val index = args("index").head.toInt
+            if(TaskListInMemoryModel.removeTask(username,index)){
+                Ok(views.html.tasklist2(TaskListInMemoryModel.getTasks(username)))
+            } else Ok(views.html.tasklist2(TaskListInMemoryModel.getTasks(username)))
+        }.getOrElse(Ok(views.html.login2()))
     }.getOrElse(Ok(views.html.login2()))
-    }
+}
 
-    def add(task:String)=Action{implicit request =>
+    def add=Action{implicit request =>
         val usernameOpt = request.session.get("username")
-        println(task)
+        //println(task)
         usernameOpt.map{ username =>
-            TaskListInMemoryModel.addTask(username,task)
-            Ok(views.html.tasklist2(TaskListInMemoryModel.getTasks(username)))
+            val postVals = request.body.asFormUrlEncoded
+            postVals.map { args =>
+                val task = args("task").head
+                TaskListInMemoryModel.addTask(username,task)
+                Ok(views.html.tasklist2(TaskListInMemoryModel.getTasks(username)))
+            }.getOrElse(Ok(views.html.login2()))
         }.getOrElse(Ok(views.html.login2()))
     }
 
