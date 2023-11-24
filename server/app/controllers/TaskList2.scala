@@ -13,12 +13,19 @@ class TaskList2 @Inject()(cc: ControllerComponents) extends AbstractController(c
   def load = Action{ implicit request =>
     val usernameOpt = request.session.get("username")
     usernameOpt.map{ username =>
-        Ok(views.html.tasklist2(TaskListInMemoryModel.getTasks(username)))
-    }.getOrElse(Ok(views.html.version2Main()))
+        Ok(views.html.version2Main(routes.TaskList2.taskList.toString()))
+    }.getOrElse(Ok(views.html.version2Main(routes.TaskList2.login.toString)))
   }
 
   def login = Action{implicit request =>
     Ok(views.html.login2())
+  }
+
+  def taskList = Action{implicit request =>
+    val usernameOpt = request.session.get("username")
+    usernameOpt.map{ username =>
+        Ok(views.html.tasklist2(TaskListInMemoryModel.getTasks(username)))
+    }.getOrElse(Ok(views.html.login2()))
   }
 
   def validate = Action{implicit request =>

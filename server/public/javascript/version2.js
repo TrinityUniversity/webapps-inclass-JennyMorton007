@@ -8,6 +8,7 @@ $("#content").load(loginRoute);
 function login(){
     const username = $("#loginName").val();
     const password = $("#loginPass").val();
+    //console.log(username+" "+password);
     $.post(validateRoute,{username,password,csrfToken},data=>{
         $("#content").html(data);
     });
@@ -27,6 +28,6 @@ function deleteTask(index){
 
 function addTask(){
     const task = $("#newTask").val();
-    console.log(task);
+    //console.log(task);
     $("#content").load("/add2?task="+encodeURIComponent(task));
 }

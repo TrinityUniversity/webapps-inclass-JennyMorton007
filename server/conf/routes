@@ -33,6 +33,7 @@ POST       /removeTask1                  controllers.TaskList1.removeTask
 # Routes for version 2
 GET         /load2                       controllers.TaskList2.load
 GET         /login2                      controllers.TaskList2.login
+GET         /taskList2                  controllers.TaskList2.taskList
 POST         /validate2                   controllers.TaskList2.validate
 #       ^^because this is an ajax call, the login info is not in the url
 POST         /create2                    controllers.TaskList2.create
