@@ -5,7 +5,6 @@ import models._
 import play.api.mvc._
 import play.api.i18n._  
 import play.api.libs.json._
-import models.UserData
 
 
 @Singleton
