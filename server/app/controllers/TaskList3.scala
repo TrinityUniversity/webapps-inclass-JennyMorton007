@@ -26,7 +26,7 @@ class TaskList3 @Inject()(cc: ControllerComponents) extends AbstractController(c
         }.getOrElse(Redirect(routes.TaskList3.load))
     }
 
-    implicit val userDataReads = Json.reads[UserData]
+    implicit val userDataReads:Reads[UserData] = Json.reads[UserData]
 
     def validate = Action{implicit request=>
         withJsonBody[UserData]{ud=>
