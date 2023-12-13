@@ -50,7 +50,7 @@ POST         /add3                    controllers.TaskList3.addTask
 POST         /delete3                    controllers.TaskList3.delete
 GET         /logout3                    controllers.TaskList3.logout  
 
-# Routes for version 3
+# Routes for version 4
 GET         /load4                        controllers.TaskList4.load
 
 # Routes for web socket chat app
